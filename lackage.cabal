@@ -1,0 +1,24 @@
+name:                lackage
+version:             0.1.0.0
+synopsis:            Small tool for managing private hackage repositories
+
+License:             BSD3
+License-File:        LICENSE
+Author:              Alexey Khudyakov
+Maintainer:          Alexey Khudyakov <alexey.skladnoy@gmail.com>
+
+Category:            Development
+Build-type:          Simple
+Cabal-version:       >=1.8
+
+executable lackage
+  Ghc-options:   -Wall
+  main-is: 	 lackage.hs
+  build-depends:
+    base >= 3 && < 5,
+    bytestring,
+    text,
+    Cabal,
+    directory,
+    tar,
+    zlib
