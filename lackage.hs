@@ -75,6 +75,7 @@ readTar path = withFile path ReadMode hreadTar
 hreadTar :: Handle -> IO [Entry]
 hreadTar h = unpackTar `fmap` L.hGetContents h
 
+unpackTar :: L.ByteString -> [Entry]
 unpackTar 
   = foldEntries (:) [] (error . show)
   . Tar.read
