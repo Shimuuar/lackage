@@ -14,7 +14,7 @@ import Codec.Compression.GZip (decompress, compress)
 import Codec.Archive.Tar       as Tar hiding (unpack)
 import Codec.Archive.Tar.Entry as Tar
 
-
+import System.IO
 import System.Environment
 import System.Directory
 
