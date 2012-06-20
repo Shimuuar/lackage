@@ -44,7 +44,7 @@ upload tarball dir = do
       tarPath   = tarDir ++ name ++ "-" ++ display version ++ ".tar.gz"
       indexPath = dirPath ++ name ++ ".cabal"
   -- Append file to index
-  appendToTar (dir ++ "/" ++ "00index.tar.gz") indexPath cabal
+  appendToTar (dir ++ "/" ++ "00-index.tar.gz") indexPath cabal
   -- Write file to directory
   createDirectoryIfMissing True tarDir
   L.writeFile tarPath bs
