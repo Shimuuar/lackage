@@ -1,6 +1,9 @@
-name:                lackage
-version:             0.1.0.0
-synopsis:            Small tool for managing private hackage repositories
+Name:                lackage
+Version:             0.1.0.0
+Synopsis:            Small tool for managing private hackage repositories
+Description:
+  Extremely simple tool for managing private hackage. Unlike yackage
+  it doesn't serve files over HTTP and only move files around.
 
 License:             BSD3
 License-File:        LICENSE
