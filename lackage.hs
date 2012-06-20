@@ -40,9 +40,10 @@ upload tarball dir = do
       version          = pkgVersion pkg
       -- Pathes
       dirPath   = name ++ "/" ++ display version ++ "/"
-      tarDir    = dir ++ "/" ++ dirPath
-      tarPath   = tarDir ++ name ++ "-" ++ display version ++ ".tar.gz"
       indexPath = dirPath ++ name ++ ".cabal"
+
+      tarDir    = dir ++ "/package/"
+      tarPath   = tarDir ++ name ++ "-" ++ display version ++ ".tar.gz"
   -- Append file to index
   appendToTar (dir ++ "/" ++ "00-index.tar.gz") indexPath cabal
   -- Write file to directory
