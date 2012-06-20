@@ -69,11 +69,16 @@ writeTar path = L.writeFile path . compress . Tar.write
 
 -- | Read compressed tarball
 readTar :: FilePath -> IO [Entry]
-readTar path = do
-  bs <- L.readFile path
-  return $ foldEntries (:) [] (error . show)
-         $ Tar.read
-         $ decompress bs
+readTar path = withFile path ReadMode hreadTar
+
+-- | Read compressed tarball from file handle
+hreadTar :: Handle -> IO [Entry]
+hreadTar h = unpackTar `fmap` L.hGetContents h
+
+unpackTar 
+  = foldEntries (:) [] (error . show)
+  . Tar.read
+  . decompress
 
 -- | Append file to the gzip compressed tarball
 appendToTar :: FilePath -> FilePath -> L.ByteString -> IO ()
