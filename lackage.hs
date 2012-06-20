@@ -1,3 +1,4 @@
+import qualified Data.ByteString      as B
 import qualified Data.ByteString.Lazy as L
 
 import Data.List
@@ -31,7 +32,7 @@ upload tarball dir = do
           "-" -> L.getContents
           _   -> L.readFile tarball
   -- Retrieve cabal file
-  let cabal = getCabal $ Tar.read $ decompress bs
+  let cabal = getCabal $ Tar.read $ decompress $ forceBS bs
       descr = getDescription cabal
   -- Build pathes
   let pkg              = package $ packageDescription descr
@@ -69,11 +70,14 @@ writeTar path = L.writeFile path . compress . Tar.write
 
 -- | Read compressed tarball
 readTar :: FilePath -> IO [Entry]
-readTar path = withFile path ReadMode hreadTar
+readTar path = do 
+  bs <- L.readFile path
+  return $ unpackTar $ forceBS bs
+--   withFile path ReadMode hreadTar
 
 -- | Read compressed tarball from file handle
 hreadTar :: Handle -> IO [Entry]
-hreadTar h = unpackTar `fmap` L.hGetContents h
+hreadTar h = (unpackTar . forceBS) `fmap` L.hGetContents h
 
 unpackTar :: L.ByteString -> [Entry]
 unpackTar 
@@ -122,3 +126,9 @@ getDescription cabal =
   case parsePackageDescription $ unpack $ decodeUtf8With lenientDecode cabal of
     ParseOk _ x -> x
     err         -> error $ "Invalid cabal file: " ++ show err
+
+
+forceBS :: L.ByteString -> L.ByteString
+forceBS lazy = L.fromChunks [bs `seq` bs]
+  where
+    bs = B.concat $ L.toChunks lazy
